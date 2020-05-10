@@ -32,10 +32,10 @@ export class StockImporterService {
 
       if(stocksFile){
         let fileSplitByRows = stocksFile.split('\n');
-        fileSplitByRows.forEach((r,i) => {
-          if(r[0] != '#'){
+        fileSplitByRows.forEach((row,index) => {
+          if(row[0] != '#'){
             stockWarehouses = [];
-            let stock = r.split(';');
+            let stock = row.split(';');
 
             if(stock.length == 3){
               if(stock[2].split('|').length !== 0){
@@ -45,11 +45,11 @@ export class StockImporterService {
                  });
               }
               else{
-                console.log(`Parse error in row ${i}`)
+                console.log(`Parse error in row ${index}`)
               }
             }
             else{
-              console.log(`Parse error in row ${i}`)
+              console.log(`Parse error in row ${index}`)
             }
 
            stocks.push(
