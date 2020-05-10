@@ -31,7 +31,7 @@ export class StockViewerComponent implements OnInit, OnChanges {
         return a.concat(b);
       } );
   
-      let sortedWarehouses = _(stocksWithNameOfWarehouse)
+      return _(stocksWithNameOfWarehouse)
         .groupBy(s=>s.stockName)
         .map((stock,stockName)=>({
             stock: stock.sort(this.compareStockes), 
@@ -39,12 +39,6 @@ export class StockViewerComponent implements OnInit, OnChanges {
             stock.map(s=>s.stockQuantity).reduce((q1,q2)=>{return q1 + q2})
         })).value()
         .sort(this.compareWarehousesByStockQuantity);
-
-
-   
-
-      console.log(sortedWarehouses);
-      return sortedWarehouses;
     }
   }
 
@@ -64,16 +58,6 @@ export class StockViewerComponent implements OnInit, OnChanges {
           }
           return 0;
         }
-    return 0;
-  }
-
-  private compareWarehousesByName(a,b){
-    if (a.stockName > b.stockName) {
-      return -1;
-    }
-    if (b.stockName > a.stockName) {
-      return 1;
-    }
     return 0;
   }
 

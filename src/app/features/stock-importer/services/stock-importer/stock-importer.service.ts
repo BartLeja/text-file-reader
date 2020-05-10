@@ -14,6 +14,7 @@ export class StockImporterService {
   
     let result = new Promise((resolve, reject) => {
       fileReader.onerror = () => {
+        console.log("File Reader error")
         fileReader.abort();
       };
   
@@ -31,15 +32,25 @@ export class StockImporterService {
 
       if(stocksFile){
         let fileSplitByRows = stocksFile.split('\n');
-        fileSplitByRows.forEach(r => {
+        fileSplitByRows.forEach((r,i) => {
           if(r[0] != '#'){
             stockWarehouses = [];
             let stock = r.split(';');
 
-            stock[2].split('|').forEach(sW=> { 
-              let stockWarehouse = sW.split(',');
-              stockWarehouses.push(new StockWarehouse(stockWarehouse[0], +stockWarehouse[1]))
-             });
+            if(stock.length == 3){
+              if(stock[2].split('|').length !== 0){
+                stock[2].split('|').forEach(sW=> { 
+                  let stockWarehouse = sW.split(',');
+                  stockWarehouses.push(new StockWarehouse(stockWarehouse[0], +stockWarehouse[1]))
+                 });
+              }
+              else{
+                console.log(`Parse error in row ${i}`)
+              }
+            }
+            else{
+              console.log(`Parse error in row ${i}`)
+            }
 
            stocks.push(
              new Stock(
