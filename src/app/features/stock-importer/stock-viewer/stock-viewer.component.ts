@@ -25,17 +25,17 @@ export class StockViewerComponent implements OnInit, OnChanges {
       let stocksWithNameOfWarehouse = this.stocks.map(s=>{
         return s.stockWarehouse
         .map(sw=>{ return {
-          stockName: sw.warehouseName, stockQuantity: sw.stockQuantity, stockId: s.stockId}
+          warehouseName: sw.warehouseName, stockQuantity: sw.stockQuantity, stockId: s.stockId}
         })
       }).reduce((a,b)=>{
         return a.concat(b);
       } );
   
       return _(stocksWithNameOfWarehouse)
-        .groupBy(s=>s.stockName)
-        .map((stock,stockName)=>({
+        .groupBy(s=>s.warehouseName)
+        .map((stock,warehouseName)=>({
             stock: stock.sort(this.compareStockes), 
-            stockName:stockName, stockQuantityTotal: 
+            warehouseName:warehouseName, stockQuantityTotal: 
             stock.map(s=>s.stockQuantity).reduce((q1,q2)=>{return q1 + q2})
         })).value()
         .sort(this.compareWarehousesByStockQuantity);
@@ -50,10 +50,10 @@ export class StockViewerComponent implements OnInit, OnChanges {
       return 1;
     }
     if(b.stockQuantityTotal = a.stockQuantityTotal){
-          if (a.stockName > b.stockName) {
+          if (a.warehouseName > b.warehouseName) {
             return -1;
           }
-          if (b.stockName > a.stockName) {
+          if (b.warehouseName > a.warehouseName) {
             return 1;
           }
           return 0;
