@@ -12,6 +12,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { StockImporterModule } from './features/stock-importer/stock-importer.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { StockImporterModule } from './features/stock-importer/stock-importer.mo
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    StockImporterModule
+    StockImporterModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

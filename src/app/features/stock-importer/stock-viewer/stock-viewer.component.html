@@ -1,1 +1,10 @@
-<p>stock-viewer works!</p>
+<div *ngFor="let stockWarehouse of sortedStocks">
+    <p>{{stockWarehouse.stockName}} (Total {{stockWarehouse.stock | totalQuantity}})</p>
+    <ul>
+        <li  *ngFor="let stock of stockWarehouse.stock"> {{stock.stockId}}: {{stock.stockQuantity}}</li>
+        <br>
+    </ul>
+</div>
+
+
+

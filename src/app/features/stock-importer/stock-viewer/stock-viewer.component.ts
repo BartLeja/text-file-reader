@@ -1,15 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { StockImporterService } from '../services/stock-importer/stock-importer.service';
+import * as _ from "lodash";
+import { Stock } from '../models/stock.model';
 
 @Component({
   selector: 'app-stock-viewer',
   templateUrl: './stock-viewer.component.html',
   styleUrls: ['./stock-viewer.component.scss']
 })
-export class StockViewerComponent implements OnInit {
+export class StockViewerComponent implements OnInit, OnChanges {
+  public sortedStocks: any;
+  @Input() public stocks: Stock[];
 
-  constructor() { }
+  public constructor(public stockImporterService: StockImporterService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+      this.sortedStocks =  this.getSortedStocks();
   }
 
+  private getSortedStocks(): any{
+    if(this.stocks){
+      let stocksWithNameOfWarehouse = this.stocks.map(s=>{
+        return s.stockWarehouse
+        .map(sw=>{ return {
+          stockName: sw.warehouseName, stockQuantity: sw.stockQuantity, stockId: s.stockId}
+        })
+      }).reduce((a,b)=>{
+        return a.concat(b);
+      } );
+  
+      let sortedWarehouses = _(stocksWithNameOfWarehouse)
+        .groupBy(s=>s.stockName)
+        .map((stock,stockName)=>({
+            stock: stock.sort(this.compareStockes), 
+            stockName:stockName, stockQuantityTotal: 
+            stock.map(s=>s.stockQuantity).reduce((q1,q2)=>{return q1 + q2})
+        })).value()
+        .sort(this.compareWarehousesByStockQuantity);
+
+
+   
+
+      console.log(sortedWarehouses);
+      return sortedWarehouses;
+    }
+  }
+
+  private compareWarehousesByStockQuantity(a,b){
+    if (a.stockQuantityTotal > b.stockQuantityTotal) {
+      return -1;
+    }
+    if (b.stockQuantityTotal > a.stockQuantityTotal) {
+      return 1;
+    }
+    if(b.stockQuantityTotal = a.stockQuantityTotal){
+          if (a.stockName > b.stockName) {
+            return -1;
+          }
+          if (b.stockName > a.stockName) {
+            return 1;
+          }
+          return 0;
+        }
+    return 0;
+  }
+
+  private compareWarehousesByName(a,b){
+    if (a.stockName > b.stockName) {
+      return -1;
+    }
+    if (b.stockName > a.stockName) {
+      return 1;
+    }
+    return 0;
+  }
+
+  private compareStockes(a,b){
+    if (a.stockId > b.stockId) {
+      return 1;
+    }
+    if (b.stockId > a.stockId) {
+      return -1;
+    }
+    return 0;
+  }
 }

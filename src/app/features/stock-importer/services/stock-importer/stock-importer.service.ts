@@ -1,24 +1,55 @@
 import { Injectable } from '@angular/core';
+import { Stock } from '../../models/stock.model';
+import { StockWarehouse } from '../../models/stockWarehouse.model';
+import * as _ from "lodash";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockImporterService {
-  private stockFile: string;
   public constructor() { }
 
+  public async readUploadedFileAsText(inputFile: File) : Promise<{}> {
+    const fileReader = new FileReader();
+  
+    let result = new Promise((resolve, reject) => {
+      fileReader.onerror = () => {
+        fileReader.abort();
+      };
+  
+      fileReader.onload = () => {
+        resolve(this.getStocks(fileReader.result.toString()));
+      };
+      fileReader.readAsText(inputFile);
+    });
+    return result;
+  };
 
+  private getStocks(stocksFile: string) : Array<Stock>{
+      let stockWarehouses: Array<StockWarehouse> = [];
+      let stocks : Array<Stock> = [];
 
-  public onChange(files: File[]) {
-    if(files[0]){
-      console.log(files[0]);
-      let myReader: FileReader = new FileReader();
-    
-      myReader.onload = (e) => {
-        this.stockFile = myReader.result.toString();
-        console.log( this.stockFile);
+      if(stocksFile){
+        let fileSplitByRows = stocksFile.split('\n');
+        fileSplitByRows.forEach(r => {
+          if(r[0] != '#'){
+            stockWarehouses = [];
+            let stock = r.split(';');
+
+            stock[2].split('|').forEach(sW=> { 
+              let stockWarehouse = sW.split(',');
+              stockWarehouses.push(new StockWarehouse(stockWarehouse[0], +stockWarehouse[1]))
+             });
+
+           stocks.push(
+             new Stock(
+                stock[0],
+                stock[1],
+                stockWarehouses)
+              );
+          }
+        })
       }
-      myReader.readAsText(files[0]);
-    }
+      return stocks;
   }
 }

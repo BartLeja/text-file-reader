@@ -1,0 +1,11 @@
+.stock-container {
+    padding: 2%;
+
+    .import-panel{
+        display: flex;
+        flex-direction: row;
+        h2 {
+            margin:0;
+        }
+    }
+}

@@ -4,6 +4,7 @@ Cherry Hardwood Arched Door - PS;COM-100001;WH-A,5|WH-B,10
 Maple Dovetail Drawerbox;COM-124047;WH-A,15
 Generic Wire Pull;COM-123906c;WH-A,10|WH-B,11|WH-C,2
 Yankee Hardware 110 Deg. Hinge;COM-123908;WH-A,10|WH-B,11
+Proko - PS;COM-100001;WH-D,33
 # Existing materials, restocked
 Hdw Accuride CB0115-CASSRC - Locking Handle Kit - Black;CB0115-CASSRC;WH-C,13|WHB,5
 Veneer - Charter Industries - 3M Adhesive Backed - Cherry 10mm - Paper Back;3MCherry-10mm;WH-A,10|WH-B,1

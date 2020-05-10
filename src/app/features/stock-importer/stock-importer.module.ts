@@ -4,11 +4,12 @@ import { StockImporterComponent } from './stock-importer/stock-importer.componen
 import { StockViewerComponent } from './stock-viewer/stock-viewer.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { TotalQuantityPipe } from './pipes/total-quantity.pipe';
 
 @NgModule({
   declarations: [
     StockImporterComponent, 
-    StockViewerComponent, 
+    StockViewerComponent, TotalQuantityPipe, 
    ],
   imports: [
     CommonModule,

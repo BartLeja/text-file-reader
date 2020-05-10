@@ -1,9 +1,14 @@
-<h2>Please select file from any olace on your hard disk 😊</h2>
+<div class= "stock-container">
+    <div class = "import-panel">
+            <h2>Please select file from any place on your hard disk 😊</h2>
 
-<button mat-button color="primary" (click)="fileInput.click()">
-    <mat-icon>file_upload</mat-icon>Import
+            <button mat-button color="primary" (click)="fileInput.click()">
+                <mat-icon>file_upload</mat-icon>Import
+        
+                <input #fileInput type="file" (change)="onChange(fileInput.files)" style="display:none;" />
+            </button>
+    </div>
+    
 
-    <input #fileInput type="file" (change)="onChange(fileInput.files)" style="display:none;" />
-</button>
-
-<app-stock-viewer></app-stock-viewer>
+    <app-stock-viewer [stocks] = "stocks"></app-stock-viewer>
+</div>
